@@ -1,0 +1,34 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net9.0-windows10.0.26100.0</TargetFramework>
+    <TargetPlatformMinVersion>10.0.26100.0</TargetPlatformMinVersion>
+    <AssetTargetFallback>uap10.0.26100</AssetTargetFallback>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+    <UseUwp>true</UseUwp>
+    <SelfContained>true</SelfContained>
+    <StartupObject>XamlIslands9.Wpf.Program</StartupObject>
+    <Platforms>x64;arm64</Platforms>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Microsoft.Toolkit.Wpf.UI.XamlHost\Microsoft.Toolkit.Wpf.UI.XamlHost.csproj" />
+    <ProjectReference Include="..\Microsoft.Toolkit.Win32.UI.XamlHost.Projection\Microsoft.Toolkit.Win32.UI.XamlHost.Projection.csproj" />
+    <ProjectReference Include="..\XamlIslands9.Uwp\XamlIslands9.Uwp.csproj" />
+  </ItemGroup>
+
+  <Target Name="CsWinRTRemoveWinMDReferences" BeforeTargets="BeforeCompile" AfterTargets="ResolveReferences">
+    <ItemGroup>
+      <CsWinRTRemovedReferences Include="@(ReferencePath)" Condition="'%(ReferencePath.Extension)' == '.winmd'" />
+      <CsWinRTInputs Include="@(CsWinRTRemovedReferences)" />
+      <ReferencePath Remove="@(ReferencePath)" Condition="'%(ReferencePath.Extension)' == '.winmd'" />
+      <ReferencePathWithRefAssemblies Remove="@(CsWinRTRemovedReferences)" Condition="'%(CsWinRTRemovedReferences.Filename)%(CsWinRTRemovedReferences.Extension)' == '%(ReferencePathWithRefAssemblies.Filename)%(ReferencePathWithRefAssemblies.Extension)'" />
+      <ReferenceCopyLocalPaths Remove="@(CsWinRTRemovedReferences)" />
+      <ReferenceDependencyPaths Remove="@(ReferenceDependencyPaths)" Condition="%(ReferenceDependencyPaths.Extension) == '.winmd'" />
+    </ItemGroup>
+  </Target>
+
+</Project>

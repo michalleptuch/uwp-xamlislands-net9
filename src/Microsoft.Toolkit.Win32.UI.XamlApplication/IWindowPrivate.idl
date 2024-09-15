@@ -1,0 +1,29 @@
+//Source: https://github.com/ADeltaX/IWindowPrivate
+namespace Microsoft.Toolkit.Win32.UI.XamlHost
+{
+	[contractversion(1.0)]
+	apicontract PrivateApiContract
+	{}
+
+	[contract(PrivateApiContract, 1.0)]
+	[uuid(15645012-8F3F-5090-B584-DF078FCC509A)]
+	interface IAtlasRequestCallback
+	{
+		HRESULT AtlasRequest([in] unsigned int width, [in] unsigned int height, [in] Windows.Graphics.DirectX.DirectXPixelFormat pixelFormat, [out] [retval] boolean* value);
+	}
+
+	[contract(PrivateApiContract, 1.0)]
+	[uuid(06636C29-5A17-458D-8EA2-2422D997A922)]
+	interface IWindowPrivate
+	{
+		[propget] HRESULT TransparentBackground([out] [retval] boolean* value);
+		[propput] HRESULT TransparentBackground([in] boolean value);
+		HRESULT Show();
+		HRESULT Hide();
+		HRESULT MoveWindow([in] int x, [in] int y, [in] int width, [in] int height);
+		HRESULT SetAtlasSizeHint([in] unsigned int width, [in] unsigned int height);
+		HRESULT ReleaseGraphicsDeviceOnSuspend([in] boolean enable);
+		HRESULT SetAtlasRequestCallback([in] Microsoft.Toolkit.Win32.UI.XamlHost.IAtlasRequestCallback* callback);
+		HRESULT GetWindowContentBoundsForElement([in] Windows.UI.Xaml.DependencyObject* element, [out] [retval] Windows.Foundation.Rect* value);
+	}
+}
